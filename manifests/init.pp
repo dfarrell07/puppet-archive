@@ -18,6 +18,7 @@
 # - *$follow_redirects: Default value false
 # - *$verbose: Default value true
 # - *$strip_components: Default value 0
+# - *$owner: Default value undef
 #
 # Example usage:
 #
@@ -43,6 +44,7 @@ define archive (
   $follow_redirects=false,
   $verbose=true,
   $strip_components=0,
+  $owner=undef,
 ) {
 
   archive::download {"${name}.${extension}":
@@ -67,6 +69,7 @@ define archive (
     extension        => $extension,
     timeout          => $timeout,
     strip_components => $strip_components,
+    owner            => $owner,
     require          => Archive::Download["${name}.${extension}"],
   }
 }

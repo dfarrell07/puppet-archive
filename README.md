@@ -58,6 +58,12 @@ For `.tar.gz` and `tar.bz2` archives, the extract step's `--strip-components=n` 
 strip_components => 1
 ```
 
+To to set the owner of extracted `.tar.gz` and `tar.bz2` archives, use the `$owner` param. It defaults to [`--no-same-owner`](http://linuxcommand.org/man_pages/tar1.html).
+
+```
+owner => 'root'
+```
+
 This full example will download the [packer](packer.io) tool to ```/usr/local/bin```:
 
 ```
