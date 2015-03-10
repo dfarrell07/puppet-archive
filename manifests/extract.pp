@@ -10,6 +10,7 @@
 # - *$extension: Default value ".tar.gz".
 # - *$timeout: Default value 120.
 # - *$strip_components: Default value 0.
+# - *$group: Default value undef.
 #
 # Example usage:
 #
@@ -39,6 +40,7 @@ define archive::extract (
   $path=$::path,
   $strip_components=0,
   $owner=undef,
+  $group=undef,
 ) {
 
   if $root_dir {
@@ -53,12 +55,18 @@ define archive::extract (
     $owner_flag = '--no-same-owner'
   }
 
+  if $group {
+    $group_flag = "--group=${group}"
+  } else {
+    $group_flag = ''
+  }
+
   case $ensure {
     'present': {
 
       $extract_zip    = "unzip -o ${src_target}/${name}.${extension} -d ${target}"
-      $extract_targz  = "tar ${owner_flag} --no-same-permissions --strip-components=${strip_components} -xzf ${src_target}/${name}.${extension} -C ${target}"
-      $extract_tarbz2 = "tar ${owner_flag} --no-same-permissions --strip-components=${strip_components} -xjf ${src_target}/${name}.${extension} -C ${target}"
+      $extract_targz  = "tar ${owner_flag} ${group_flag} --no-same-permissions --strip-components=${strip_components} -xzf ${src_target}/${name}.${extension} -C ${target}"
+      $extract_tarbz2 = "tar ${owner_flag} ${group_flag} --no-same-permissions --strip-components=${strip_components} -xjf ${src_target}/${name}.${extension} -C ${target}"
 
       $command = $extension ? {
         'zip'     => "mkdir -p ${target} && ${extract_zip}",

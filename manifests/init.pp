@@ -19,6 +19,7 @@
 # - *$verbose: Default value true
 # - *$strip_components: Default value 0
 # - *$owner: Default value undef
+# - *$group: Default value undef.
 #
 # Example usage:
 #
@@ -45,6 +46,7 @@ define archive (
   $verbose=true,
   $strip_components=0,
   $owner=undef,
+  $group=undef,
 ) {
 
   archive::download {"${name}.${extension}":
@@ -70,6 +72,7 @@ define archive (
     timeout          => $timeout,
     strip_components => $strip_components,
     owner            => $owner,
+    group            => $group,
     require          => Archive::Download["${name}.${extension}"],
   }
 }
